@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+  ServerName <%= domain %>
+  ServerAlias www.<%= domain %>
+
+  CustomLog /var/log/apache2/<%= domain %>.access.log combined
+
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www.<%= domain %>$ [NC]
+  RewriteRule ^/(.*)$ http://<%= domain %>/$1 [R=301,L]
+
+  DocumentRoot <%= deploy_to %>/current/public
+
+  # Check for maintenance file and redirect all requests
+  RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+  RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+  RewriteRule ^.*$ /system/maintenance.html [L]
+
+  <Directory "<%= deploy_to %>/current/public">
+    allow from all
+    Options +Indexes
+  </Directory>
+</VirtualHost>
