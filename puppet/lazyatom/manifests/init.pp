@@ -8,7 +8,7 @@ class lazyatom {
     }
   }
 
-  define app($deploy_to, $domain) {
+  define app($deploy_to, $domain=$name, $vhost_additions=nil) {
     include lazyatom::users
     include xml
     include rack
@@ -16,6 +16,17 @@ class lazyatom {
     rack::host { $name:
       content => template("lazyatom/vhost.erb"),
       ensure => enabled
+    }
+  }
+
+  define db($environment, $password) {
+    include lazyatom::users
+    include freerange
+    include mysql::server
+
+    mysql::server::db { "$name_$environment":
+      user => $name,
+      password => $password
     }
   }
 }
