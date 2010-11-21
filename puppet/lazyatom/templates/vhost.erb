@@ -20,5 +20,5 @@
     Options +Indexes
   </Directory>
 
-  <%= vhost_additions || "" %>
+  <%= vhost_additions.join("\n  ") %>
 </VirtualHost>

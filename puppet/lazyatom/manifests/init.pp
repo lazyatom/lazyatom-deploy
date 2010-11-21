@@ -8,7 +8,7 @@ class lazyatom {
     }
   }
 
-  define app($deploy_to, $domain=$name, $vhost_additions=nil) {
+  define app($deploy_to, $domain=$name, $vhost_additions=[]) {
     include lazyatom::users
     include xml
     include rack
