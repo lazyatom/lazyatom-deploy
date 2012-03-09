@@ -34,7 +34,7 @@ class lazyatom {
     include freerange
     include mysql::server
 
-    mysql::server::db { "$name_$environment":
+    mysql::server::db { "${name}_${environment}":
       user => $name,
       password => $password
     }
